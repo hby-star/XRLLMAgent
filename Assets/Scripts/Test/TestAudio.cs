@@ -60,11 +60,6 @@ public class TestAudio : MonoBehaviour
         ConversionAppendMessage(Role.System, systemPrompt);
     }
 
-    private void Start()
-    {
-        ToggleRecording();
-    }
-
     private float lastPressTime;
     private float pressDelay = 1f;
     private void Update()
@@ -126,7 +121,8 @@ public class TestAudio : MonoBehaviour
 
         try
         {
-            var request = new ChatRequest(_conversation.Messages, tools: assistantTools);
+            //var request = new ChatRequest(_conversation.Messages, tools: assistantTools);
+            var request = new ChatRequest(_conversation.Messages);
             var response = await _openAIClient.ChatEndpoint.StreamCompletionAsync(request,
                 resultHandler: deltaResponse =>
                 {
