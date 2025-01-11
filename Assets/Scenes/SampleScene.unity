@@ -249,7 +249,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 832787968}
-  - component: {fileID: 832787966}
+  - component: {fileID: 832787970}
+  - component: {fileID: 832787969}
   m_Layer: 0
   m_Name: Agent
   m_TagString: Untagged
@@ -257,23 +258,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &832787966
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 832787965}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 51db9cd936bcc124c809a4e1fd3f96f6, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  enableDebug: 1
-  audioSource: {fileID: 1171203460}
-  voice: 0
-  systemPrompt: You are a helpful assistant.
-  newInput: 
 --- !u!4 &832787968
 Transform:
   m_ObjectHideFlags: 0
@@ -291,6 +275,35 @@ Transform:
   - {fileID: 1171203459}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &832787969
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 832787965}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7b42a9cb70af4e1449d7569a9190ef3c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &832787970
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 832787965}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 210627a6753067c42a5b13969646698c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  enableDebug: 1
+  audioSource: {fileID: 1171203460}
+  voice: 0
+  systemPrompt: You are a helpful assistant.
+  newInput: 
 --- !u!1 &1171203458
 GameObject:
   m_ObjectHideFlags: 0
