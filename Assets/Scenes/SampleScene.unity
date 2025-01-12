@@ -302,8 +302,11 @@ MonoBehaviour:
   enableDebug: 1
   audioSource: {fileID: 1171203460}
   voice: 0
-  systemPrompt: You are a helpful assistant.
-  newInput: 
+  systemPrompt: 'You are a helpful assistant.
+
+    -You should generate brief response
+    that is no more than 50 words.'
+  newInput: use the debug call tool.
 --- !u!1 &1171203458
 GameObject:
   m_ObjectHideFlags: 0

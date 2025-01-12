@@ -20,7 +20,7 @@ using Utilities.Extensions;
 using Utilities.WebRequestRest;
 using Microphone = UnityEngine.Microphone;
 
-public class AgentAudioController: MonoBehaviour
+public class AgentAudioController : MonoBehaviour
 {
     [SerializeField] private bool enableDebug;
 
@@ -56,36 +56,54 @@ public class AgentAudioController: MonoBehaviour
     {
         OnValidate();
         _openAIClient = new OpenAIClient(
-            new OpenAIAuthentication().LoadFromPath(Environment.CurrentDirectory + "/Assets/OpenAIKeys/APIKey.json"));
-        assistantTools.Add(Tool.GetOrCreateTool(typeof(AgentFunctionCallController), "DebugCall", "This is a debug call"));
-        ConversionAppendMessage(Role.System, systemPrompt);
+            new OpenAIAuthentication().LoadFromPath(Environment.CurrentDirectory + "/Assets/OpenAIKeys/APIKey.json"))
+        {
+            EnableDebug = enableDebug
+        };
+        assistantTools.Add(Tool.GetOrCreateTool(typeof(AgentFunctionCallController), "DebugCall",
+            "This is a debug call"));
+        ConversionAppendMessage(new Message(Role.System, systemPrompt));
     }
 
     private float lastPressTime;
     private float pressDelay = 1f;
+
     private void Update()
     {
-        if(Input.GetKeyDown(KeyCode.Space))
+        if (Input.GetKeyDown(KeyCode.Space))
         {
-            if(_canRecord && Time.time - lastPressTime > pressDelay)
+            if (_canRecord && Time.time - lastPressTime > pressDelay)
             {
                 lastPressTime = Time.time;
                 ToggleRecording();
             }
         }
+
+        if (Input.GetKeyDown(KeyCode.S))
+        {
+            if (Time.time - lastPressTime > pressDelay)
+            {
+                lastPressTime = Time.time;
+                SubmitChat();
+            }
+        }
     }
 
-    private void ConversionAppendMessage(Role role, string content)
+    private void ConversionAppendMessage(Message message)
     {
-        _conversation.AppendMessage(new Message(role, content));
+        _conversation.AppendMessage(message);
         if (enableDebug)
         {
-            if (role == Role.System)
-                Debug.Log("System: " + content);
-            else if (role == Role.User)
-                Debug.Log("User: " + content);
-            else if (role == Role.Assistant)
-                Debug.Log("Assistant: " + content);
+            if (message.Role == Role.System)
+                Debug.Log("System: " + message.Content?.ToString());
+            else if (message.Role == Role.User)
+                Debug.Log("User: " + message.Content?.ToString());
+            else if (message.Role == Role.Assistant)
+                Debug.Log("Assistant: " + message.Content?.ToString());
+            else
+            {
+                Debug.Log("Tool: " + message.Content?.ToString());
+            }
         }
     }
 
@@ -112,7 +130,7 @@ public class AgentAudioController: MonoBehaviour
 
         _isChatPending = true;
 
-        ConversionAppendMessage(Role.User, newInput);
+        ConversionAppendMessage(new Message(Role.User, newInput));
 
         //var userMessageContent = AddNewTextMessageContent(Role.User);
         //userMessageContent.text = $"User: {newInput}";
@@ -137,10 +155,9 @@ public class AgentAudioController: MonoBehaviour
 
             if (response.FirstChoice.FinishReason == "tool_calls")
             {
+                ConversionAppendMessage(response.FirstChoice.Message);
                 response = await ProcessToolCallsAsync(response);
             }
-
-            ConversionAppendMessage(response.FirstChoice.Message.Role, response.FirstChoice.Message.Content.ToString());
 
             await GenerateSpeechAsync(response, destroyCancellationToken);
         }
@@ -188,11 +205,11 @@ public class AgentAudioController: MonoBehaviour
                     catch (Exception e)
                     {
                         Debug.LogError(e);
-                        _conversation.AppendMessage(new(toolCall, $"{{\"result\":\"{e.Message}\"}}"));
+                        ConversionAppendMessage(new(toolCall, $"{{\"result\":\"{e.Message}\"}}"));
                         return;
                     }
 
-                    _conversation.AppendMessage(new(toolCall, "{\"result\":\"completed\"}"));
+                    ConversionAppendMessage(new(toolCall, "{\"result\":\"completed\"}"));
                 }
             }
 
@@ -205,7 +222,7 @@ public class AgentAudioController: MonoBehaviour
                 var toolCallRequest = new ChatRequest(_conversation.Messages, tools: assistantTools);
                 toolCallResponse =
                     await _openAIClient.ChatEndpoint.GetCompletionAsync(toolCallRequest, destroyCancellationToken);
-                _conversation.AppendMessage(toolCallResponse.FirstChoice.Message);
+                ConversionAppendMessage(toolCallResponse.FirstChoice.Message);
             }
             catch (RestException restEx)
             {
@@ -213,13 +230,13 @@ public class AgentAudioController: MonoBehaviour
 
                 foreach (var toolCall in response.FirstChoice.Message.ToolCalls)
                 {
-                    _conversation.AppendMessage(new Message(toolCall, restEx.Response.Body));
+                    ConversionAppendMessage(new Message(toolCall, restEx.Response.Body));
                 }
 
                 var toolCallRequest = new ChatRequest(_conversation.Messages, tools: assistantTools);
                 toolCallResponse =
                     await _openAIClient.ChatEndpoint.GetCompletionAsync(toolCallRequest, destroyCancellationToken);
-                _conversation.AppendMessage(toolCallResponse.FirstChoice.Message);
+                ConversionAppendMessage(toolCallResponse.FirstChoice.Message);
             }
 
             if (toolCallResponse.FirstChoice.FinishReason == "tool_calls")
@@ -334,12 +351,12 @@ public class AgentAudioController: MonoBehaviour
         {
             RecordingManager.EndRecording();
 
-            if(enableDebug)
+            if (enableDebug)
                 Debug.Log("End recording");
         }
         else
         {
-            if(enableDebug)
+            if (enableDebug)
                 Debug.Log("Start recording");
 
             // ReSharper disable once MethodSupportsCancellation
