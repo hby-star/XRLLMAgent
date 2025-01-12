@@ -170,6 +170,15 @@ public class AgentFaceAnimationController : MonoBehaviour
 
     public void SingleFaceAnimationCall(int index, float weight)
     {
+        // Reset all other blend shapes
+        for (int i = 0; i < skinnedMeshRenderer.sharedMesh.blendShapeCount; i++)
+        {
+            if (i != index)
+            {
+                skinnedMeshRenderer.SetBlendShapeWeight(i, 0);
+            }
+        }
+
         skinnedMeshRenderer.SetBlendShapeWeight(index, weight);
     }
 
