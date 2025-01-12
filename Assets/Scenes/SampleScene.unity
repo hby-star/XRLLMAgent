@@ -326,7 +326,7 @@ MonoBehaviour:
     do not want to talk too much.
 
 '
-  newInput: I am sad, can you smile for me?
+  newInput: hello
 --- !u!114 &832787971
 MonoBehaviour:
   m_ObjectHideFlags: 0

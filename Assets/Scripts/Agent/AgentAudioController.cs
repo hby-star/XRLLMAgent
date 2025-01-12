@@ -175,11 +175,13 @@ public class AgentAudioController : MonoBehaviour
                     //assistantMessageContent.text += deltaResponse.FirstChoice.Delta.ToString();
                 }, cancellationToken: destroyCancellationToken);
 
+            ConversionAppendMessage(response.FirstChoice.Message);
+
             if (response.FirstChoice.FinishReason == "tool_calls")
             {
-                ConversionAppendMessage(response.FirstChoice.Message);
                 response = await ProcessToolCallsAsync(response);
             }
+
 
             await GenerateSpeechAsync(response, destroyCancellationToken);
         }
