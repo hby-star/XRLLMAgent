@@ -1,0 +1,249 @@
+{
+  "blendShapes": [
+    {
+      "index": 0,
+      "name": "target_34",
+      "weightMax": 100.0,
+      "weightMin": 0.0,
+      "description": "Ignore and do not use this blend shape."
+    },
+    {
+      "index": 1,
+      "name": "blink",
+      "weightMax": 100.0,
+      "weightMin": 0.0,
+      "description": "Controls the eye blinking animation for a neutral blink."
+    },
+    {
+      "index": 2,
+      "name": "raise_eyebrows",
+      "weightMax": 100.0,
+      "weightMin": 0.0,
+      "description": "Raises the eyebrows, typically for an expression of surprise or focus."
+    },
+    {
+      "index": 3,
+      "name": "open_mouth",
+      "weightMax": 100.0,
+      "weightMin": 0.0,
+      "description": "Opens the mouth for various expressions, such as talking or expressing surprise."
+    },
+    {
+      "index": 4,
+      "name": "open_mouth2",
+      "weightMax": 100.0,
+      "weightMin": 0.0,
+      "description": "An alternative or variant shape for opening the mouth, possibly for a different expression."
+    },
+    {
+      "index": 5,
+      "name": "squint",
+      "weightMax": 100.0,
+      "weightMin": 0.0,
+      "description": "Narrowing the eyes, typically used to convey suspicion, concentration, or annoyance."
+    },
+    {
+      "index": 6,
+      "name": "raise_eyebrows2",
+      "weightMax": 100.0,
+      "weightMin": 0.0,
+      "description": "A secondary version of eyebrow raise, typically more pronounced."
+    },
+    {
+      "index": 7,
+      "name": "blink_right",
+      "weightMax": 100.0,
+      "weightMin": 0.0,
+      "description": "A blink of the right eye."
+    },
+    {
+      "index": 8,
+      "name": "sad",
+      "weightMax": 100.0,
+      "weightMin": 0.0,
+      "description": "An expression of sadness or unhappiness, typically with a downturned mouth and eyes."
+    },
+    {
+      "index": 9,
+      "name": "squint2",
+      "weightMax": 100.0,
+      "weightMin": 0.0,
+      "description": "A stronger or more intense squint, possibly showing frustration or focus."
+    },
+    {
+      "index": 10,
+      "name": "raise_eyebrows3",
+      "weightMax": 100.0,
+      "weightMin": 0.0,
+      "description": "A third version of eyebrow raising, potentially used to express more extreme surprise or confusion."
+    },
+    {
+      "index": 11,
+      "name": "sad_mouth",
+      "weightMax": 100.0,
+      "weightMin": 0.0,
+      "description": "Mouth shape showing sadness, such as a frown or downturned corners."
+    },
+    {
+      "index": 12,
+      "name": "open_mouth2.001",
+      "weightMax": 100.0,
+      "weightMin": 0.0,
+      "description": "Another version of mouth opening, could be for a wider or more dramatic expression."
+    },
+    {
+      "index": 13,
+      "name": "blink_right.001",
+      "weightMax": 100.0,
+      "weightMin": 0.0,
+      "description": "A variant of the right eye blink, might have a different intensity or duration."
+    },
+    {
+      "index": 14,
+      "name": "smile",
+      "weightMax": 100.0,
+      "weightMin": 0.0,
+      "description": "A simple smile, showing happiness or friendliness."
+    },
+    {
+      "index": 15,
+      "name": "open_mouth.001",
+      "weightMax": 100.0,
+      "weightMin": 0.0,
+      "description": "A slight variation of mouth opening, could be for different speech or expressions."
+    },
+    {
+      "index": 16,
+      "name": "open_mouth.002",
+      "weightMax": 100.0,
+      "weightMin": 0.0,
+      "description": "Further variation of mouth opening, for exaggerated expressions like yelling or shock."
+    },
+    {
+      "index": 17,
+      "name": "blink_left.001",
+      "weightMax": 100.0,
+      "weightMin": 0.0,
+      "description": "A blink of the left eye."
+    },
+    {
+      "index": 18,
+      "name": "angry_face",
+      "weightMax": 100.0,
+      "weightMin": 0.0,
+      "description": "An angry expression, typically with furrowed brows and a scowl."
+    },
+    {
+      "index": 19,
+      "name": "slight_smile",
+      "weightMax": 100.0,
+      "weightMin": 0.0,
+      "description": "A subtle smile, possibly indicating mild happiness or amusement."
+    },
+    {
+      "index": 20,
+      "name": "tired_face",
+      "weightMax": 100.0,
+      "weightMin": 0.0,
+      "description": "A facial expression that conveys tiredness or exhaustion, with droopy eyes and mouth."
+    },
+    {
+      "index": 21,
+      "name": "smile2",
+      "weightMax": 100.0,
+      "weightMin": 0.0,
+      "description": "A more pronounced smile, possibly indicating greater joy or amusement."
+    },
+    {
+      "index": 22,
+      "name": "o_mouth",
+      "weightMax": 100.0,
+      "weightMin": 0.0,
+      "description": "A mouth shaped like an 'O', often used to express surprise, shock, or amazement."
+    },
+    {
+      "index": 23,
+      "name": "grin",
+      "weightMax": 100.0,
+      "weightMin": 0.0,
+      "description": "A wide grin, often used for mischievous or cheeky expressions."
+    },
+    {
+      "index": 24,
+      "name": "smile_eyes",
+      "weightMax": 100.0,
+      "weightMin": 0.0,
+      "description": "A smile combined with eyes that express joy or amusement."
+    },
+    {
+      "index": 25,
+      "name": "v_eyes",
+      "weightMax": 100.0,
+      "weightMin": 0.0,
+      "description": "Eyes forming a 'V' shape, usually seen in expressions of surprise or disbelief."
+    },
+    {
+      "index": 26,
+      "name": "smile3",
+      "weightMax": 100.0,
+      "weightMin": 0.0,
+      "description": "A third variant of the smile, possibly more exaggerated or showing more teeth."
+    },
+    {
+      "index": 27,
+      "name": "spike_teeth",
+      "weightMax": 100.0,
+      "weightMin": 0.0,
+      "description": "Sharp or pointed teeth exposed, often used for vampire-like or aggressive expressions."
+    },
+    {
+      "index": 28,
+      "name": "spike_teet2",
+      "weightMax": 100.0,
+      "weightMin": 0.0,
+      "description": "A second version of spike teeth, showing a more intense or exaggerated effect."
+    },
+    {
+      "index": 29,
+      "name": "blink_left",
+      "weightMax": 100.0,
+      "weightMin": 0.0,
+      "description": "Another left eye blink."
+    },
+    {
+      "index": 30,
+      "name": "spike_teeth3",
+      "weightMax": 100.0,
+      "weightMin": 0.0,
+      "description": "A third version of spike teeth, with more pronounced aggression or monstrous form."
+    },
+    {
+      "index": 31,
+      "name": "spike_teeth4",
+      "weightMax": 100.0,
+      "weightMin": 0.0,
+      "description": "A fourth variant of the spike teeth expression, possibly even more dramatic."
+    },
+    {
+      "index": 32,
+      "name": "scream",
+      "weightMax": 100.0,
+      "weightMin": 0.0,
+      "description": "An expression of screaming, with wide eyes and mouth."
+    },
+    {
+      "index": 33,
+      "name": "angry",
+      "weightMax": 100.0,
+      "weightMin": 0.0,
+      "description": "A more intense angry expression, with furrowed brows, tight lips, and often bared teeth."
+    },
+    {
+      "index": 34,
+      "name": "surprise",
+      "weightMax": 100.0,
+      "weightMin": 0.0,
+      "description": "An expression of surprise, typically with wide eyes, raised eyebrows, and an open mouth."
+    }
+  ]
+}

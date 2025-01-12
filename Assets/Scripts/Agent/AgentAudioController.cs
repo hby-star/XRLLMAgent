@@ -29,7 +29,11 @@ public class AgentAudioController : MonoBehaviour
     [Obsolete] [SerializeField] private SpeechVoice voice;
 
     [SerializeField] [TextArea(3, 10)] private string systemPrompt =
-        "You are a helpful assistant.\n";
+        "You are a helpful assistant.\n" +
+        "You should generate brief response that is no more than 50 words." +
+        "when you think you should make an expression, call the tool SingleFaceAnimationCall.\n" +
+        "You should behave like a human when make an expression and do not just read the instruction." +
+        "For example, when you are happy, you should say something interesting. And you should not just say 'I am happy now' or 'I have make a happy face'.";
 
     [SerializeField] private String newInput;
 
@@ -60,8 +64,24 @@ public class AgentAudioController : MonoBehaviour
         {
             EnableDebug = enableDebug
         };
-        assistantTools.Add(Tool.GetOrCreateTool(typeof(AgentFunctionCallController), "DebugCall",
-            "This is a debug call"));
+
+        // Add tools
+        // for debug
+        assistantTools.Add(
+            Tool.GetOrCreateTool(typeof(AgentFunctionCallController), "DebugCall", "This is a debug call")
+        );
+        // for single face animation
+        string singleFaceAnimationCallDescription = "Call this tool when you think you should make an expression." +
+                                                    "The function takes two arguments: index and weight. " +
+                                                    "Index is the index of the face animation. weight 0 means no animation, and weight 100 means full animation." +
+                                                    "Here is the description for the arguments:" +
+                                                    Resources.Load<TextAsset>("BlendShapeInfo").text;
+        assistantTools.Add(
+            Tool.GetOrCreateTool(typeof(AgentFunctionCallController), "SingleFaceAnimationCall",
+                singleFaceAnimationCallDescription)
+        );
+
+
         ConversionAppendMessage(new Message(Role.System, systemPrompt));
     }
 
@@ -219,7 +239,8 @@ public class AgentAudioController : MonoBehaviour
 
             try
             {
-                var toolCallRequest = new ChatRequest(_conversation.Messages, tools: assistantTools, model: Model.GPT4oMini);
+                var toolCallRequest =
+                    new ChatRequest(_conversation.Messages, tools: assistantTools, model: Model.GPT4oMini);
                 toolCallResponse =
                     await _openAIClient.ChatEndpoint.GetCompletionAsync(toolCallRequest, destroyCancellationToken);
                 ConversionAppendMessage(toolCallResponse.FirstChoice.Message);
@@ -233,7 +254,8 @@ public class AgentAudioController : MonoBehaviour
                     ConversionAppendMessage(new Message(toolCall, restEx.Response.Body));
                 }
 
-                var toolCallRequest = new ChatRequest(_conversation.Messages, tools: assistantTools, model: Model.GPT4oMini);
+                var toolCallRequest =
+                    new ChatRequest(_conversation.Messages, tools: assistantTools, model: Model.GPT4oMini);
                 toolCallResponse =
                     await _openAIClient.ChatEndpoint.GetCompletionAsync(toolCallRequest, destroyCancellationToken);
                 ConversionAppendMessage(toolCallResponse.FirstChoice.Message);

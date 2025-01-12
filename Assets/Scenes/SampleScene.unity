@@ -251,6 +251,7 @@ GameObject:
   - component: {fileID: 832787968}
   - component: {fileID: 832787970}
   - component: {fileID: 832787969}
+  - component: {fileID: 832787971}
   m_Layer: 0
   m_Name: Agent
   m_TagString: Untagged
@@ -304,9 +305,44 @@ MonoBehaviour:
   voice: 0
   systemPrompt: 'You are a helpful assistant.
 
-    -You should generate brief response
-    that is no more than 50 words.'
-  newInput: use the debug call tool.
+    You should generate brief response
+    that is no more than 50 words.
+
+    when you think you should make an expression,
+    call the tool SingleFaceAnimationCall.
+
+    You should behave like a human when
+    make an expression and do not just read the instruction.
+
+    For example, when
+    you are happy, you should say something interesting. And you should not just
+    say ''I am happy now'' or ''I have make a happy face''
+
+'
+  newInput: Can you open your mouse.
+--- !u!114 &832787971
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 832787965}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6567e1449f5c4e14d8232845f7a70ddb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  skinnedMeshRenderer: {fileID: 1694388105474027919}
+  blendShapeInfoPath: Assets/Scripts/Agent/BlendShapeInfo.json
+  enableBlink: 0
+  blinkShapeIndex: 1
+  ratioClose: 100
+  ratioOpen: 0
+  currentRatio: 0
+  minBlink: 2
+  maxBlink: 4
+  timeBlink: 0.2
+  blinkTimer: 0
 --- !u!1 &1171203458
 GameObject:
   m_ObjectHideFlags: 0
