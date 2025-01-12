@@ -219,12 +219,14 @@ public class AgentAudioController : MonoBehaviour
 
                 async Task ProcessToolCall()
                 {
-                    await Awaiters.UnityMainThread;
+                    ConversionAppendMessage(new(toolCall, "{\"result\":\"completed\"}"));
+                    //await Awaiters.UnityMainThread;
 
                     try
                     {
-                        var results = await toolCall.InvokeFunctionAsync(destroyCancellationToken)
-                            .ConfigureAwait(true);
+                        // var results = await toolCall.InvokeFunctionAsync(destroyCancellationToken)
+                        //     .ConfigureAwait(true);
+                        toolCall.InvokeFunctionAsync(destroyCancellationToken);
                     }
                     catch (Exception e)
                     {
@@ -233,12 +235,11 @@ public class AgentAudioController : MonoBehaviour
                         return;
                     }
 
-                    ConversionAppendMessage(new(toolCall, "{\"result\":\"completed\"}"));
                 }
             }
 
 
-            await Task.WhenAll(toolCalls).ConfigureAwait(true);
+            //await Task.WhenAll(toolCalls).ConfigureAwait(true);
             ChatResponse toolCallResponse;
 
             try

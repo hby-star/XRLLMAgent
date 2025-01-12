@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.IO;
+using System.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.Serialization;
 using Random = UnityEngine.Random;
@@ -160,11 +161,37 @@ public class AgentFaceAnimationController : MonoBehaviour
     private void OnEnable()
     {
         Messenger<int, float>.AddListener(AgentFunctionCallEvent.FACE_ANIMATION_CALL, SingleFaceAnimationCall);
+        Messenger.AddListener(AgentFunctionCallEvent.DEBUG_CALL, DebugCall);
     }
 
     private void OnDisable()
     {
         Messenger<int, float>.RemoveListener(AgentFunctionCallEvent.FACE_ANIMATION_CALL, SingleFaceAnimationCall);
+        Messenger.RemoveListener(AgentFunctionCallEvent.DEBUG_CALL, DebugCall);
+    }
+
+    async void DebugCall()
+    {
+        Debug.Log("This is a debug call from AgentFunctionCallController (Coroutine)");
+
+        await Task.Run(() => Compute());
+
+        Debug.Log("Debug call finished.");
+    }
+
+    void Compute()
+    {
+        // 模拟大约10秒的计算量
+        double result = 0;
+        DateTime startTime = DateTime.Now;
+
+        while ((DateTime.Now - startTime).TotalSeconds < 10)
+        {
+            for (int i = 0; i < 100000; i++)
+            {
+                result += Math.Sqrt(i);
+            }
+        }
     }
 
 

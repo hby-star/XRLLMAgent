@@ -7,7 +7,7 @@ public class AgentFunctionCallController : MonoBehaviour
 {
     public static void DebugCall()
     {
-        Debug.Log("This is a debug call from AgentFunctionCallController");
+        Messenger.Broadcast(AgentFunctionCallEvent.DEBUG_CALL);
     }
 
     public static void SingleFaceAnimationCall(long index, double weight)
