@@ -29,7 +29,7 @@ public class AgentAudioController : MonoBehaviour
     [Obsolete] [SerializeField] private SpeechVoice voice;
 
     [SerializeField] [TextArea(3, 10)] private string systemPrompt =
-        "You are a helpful assistant.\n- If an image is requested then use \"![Image](output.jpg)\" to display it.\n- When performing function calls, use the defaults unless explicitly told to use a specific value.\n- Images should always be generated in base64.";
+        "You are a helpful assistant.\n";
 
     [SerializeField] private String newInput;
 
@@ -140,7 +140,7 @@ public class AgentAudioController : MonoBehaviour
 
         try
         {
-            var request = new ChatRequest(_conversation.Messages, tools: assistantTools);
+            var request = new ChatRequest(_conversation.Messages, tools: assistantTools, model: Model.GPT4oMini);
             //var request = new ChatRequest(_conversation.Messages);
             var response = await _openAIClient.ChatEndpoint.StreamCompletionAsync(request,
                 resultHandler: deltaResponse =>
@@ -219,7 +219,7 @@ public class AgentAudioController : MonoBehaviour
 
             try
             {
-                var toolCallRequest = new ChatRequest(_conversation.Messages, tools: assistantTools);
+                var toolCallRequest = new ChatRequest(_conversation.Messages, tools: assistantTools, model: Model.GPT4oMini);
                 toolCallResponse =
                     await _openAIClient.ChatEndpoint.GetCompletionAsync(toolCallRequest, destroyCancellationToken);
                 ConversionAppendMessage(toolCallResponse.FirstChoice.Message);
@@ -233,7 +233,7 @@ public class AgentAudioController : MonoBehaviour
                     ConversionAppendMessage(new Message(toolCall, restEx.Response.Body));
                 }
 
-                var toolCallRequest = new ChatRequest(_conversation.Messages, tools: assistantTools);
+                var toolCallRequest = new ChatRequest(_conversation.Messages, tools: assistantTools, model: Model.GPT4oMini);
                 toolCallResponse =
                     await _openAIClient.ChatEndpoint.GetCompletionAsync(toolCallRequest, destroyCancellationToken);
                 ConversionAppendMessage(toolCallResponse.FirstChoice.Message);
