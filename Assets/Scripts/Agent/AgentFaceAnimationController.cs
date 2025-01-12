@@ -172,7 +172,7 @@ public class AgentFaceAnimationController : MonoBehaviour
 
     async void DebugCall()
     {
-        Debug.Log("This is a debug call from AgentFunctionCallController (Coroutine)");
+        Debug.Log("This is a debug call from AgentFunctionCallController");
 
         await Task.Run(() => Compute());
 
