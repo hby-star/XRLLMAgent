@@ -220,7 +220,7 @@ public class AgentAudioController : MonoBehaviour
                 async Task ProcessToolCall()
                 {
                     ConversionAppendMessage(new(toolCall, "{\"result\":\"completed\"}"));
-                    //await Awaiters.UnityMainThread;
+                    await Awaiters.UnityMainThread;
 
                     try
                     {
