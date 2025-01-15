@@ -389,6 +389,7 @@ GameObject:
   - component: {fileID: 832787970}
   - component: {fileID: 832787969}
   - component: {fileID: 832787971}
+  - component: {fileID: 832787972}
   m_Layer: 0
   m_Name: Agent
   m_TagString: Untagged
@@ -487,6 +488,45 @@ MonoBehaviour:
   maxBlink: 4
   timeBlink: 0.2
   blinkTimer: 0
+--- !u!114 &832787972
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 832787965}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4c2658d3ca01a8743a841ed81776fd03, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  enableDebug: 1
+  audioSource: {fileID: 1171203460}
+  voice: 0
+  systemPrompt: 'You are a helpful assistant.
+
+    You should generate brief response
+    that is no more than 50 words.
+
+    When you think you should make an expression,
+    call the tool SingleFaceAnimationCall.
+
+    You can at most make 1 face animation
+    within a single user message, decide carefully which expression you should make.
+
+    You
+    should behave like a naughty girl when make an expression instead of just read
+    the instruction.
+
+    For example, when you are happy, you should say something
+    interesting. And you should not just say ''I am happy now'' or ''I have make
+    a happy face''
+
+    And when you are sad, you should behave like a sad girl and
+    do not want to talk too much.
+
+'
+  newInput: use debug call.
 --- !u!1 &960768377
 GameObject:
   m_ObjectHideFlags: 0

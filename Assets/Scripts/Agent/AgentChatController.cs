@@ -20,7 +20,7 @@ using Utilities.Extensions;
 using Utilities.WebRequestRest;
 using Microphone = UnityEngine.Microphone;
 
-public class AgentAudioController : MonoBehaviour
+public class AgentChatController : MonoBehaviour
 {
     [SerializeField] private bool enableDebug;
 
@@ -226,7 +226,7 @@ public class AgentAudioController : MonoBehaviour
                     {
                         // var results = await toolCall.InvokeFunctionAsync(destroyCancellationToken)
                         //     .ConfigureAwait(true);
-                        toolCall.InvokeFunctionAsync(destroyCancellationToken);
+                        await toolCall.InvokeFunctionAsync(destroyCancellationToken);
                     }
                     catch (Exception e)
                     {
@@ -239,7 +239,7 @@ public class AgentAudioController : MonoBehaviour
             }
 
 
-            //await Task.WhenAll(toolCalls).ConfigureAwait(true);
+            await Task.WhenAll(toolCalls).ConfigureAwait(true);
             ChatResponse toolCallResponse;
 
             try
