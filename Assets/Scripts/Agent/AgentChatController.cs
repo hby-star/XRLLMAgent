@@ -40,6 +40,7 @@ public class AgentChatController : MonoBehaviour
     [SerializeField] private String newInput;
 
     private OpenAIClient _openAIClient;
+    // private OpenAIClient _fastgptClient;
     private readonly Conversation _conversation = new();
     private readonly List<Tool> assistantTools = new();
     private readonly ConcurrentQueue<float> sampleQueue = new();
@@ -62,26 +63,32 @@ public class AgentChatController : MonoBehaviour
     {
         OnValidate();
         _openAIClient = new OpenAIClient(
-            new OpenAIAuthentication().LoadFromPath(Environment.CurrentDirectory + "/Assets/OpenAIKeys/APIKey.json"))
+            new OpenAIAuthentication().LoadFromPath(Environment.CurrentDirectory + "/Assets/APIKeys/oneapiKey.json"))
         {
             EnableDebug = enableDebug
         };
+
+        // _fastgptClient = new OpenAIClient(
+        //     new OpenAIAuthentication().LoadFromPath(Environment.CurrentDirectory + "/Assets/APIKeys/fastgptKey.json"))
+        // {
+        //     EnableDebug = enableDebug
+        // };
 
         // Add tools
         // for debug
         assistantTools.Add(
             Tool.GetOrCreateTool(typeof(AgentFunctionCallController), "DebugCall", "This is a debug call")
         );
-        // for single face animation
-        string singleFaceAnimationCallDescription = "Call this tool when you think you should make an expression." +
-                                                    "The function takes two arguments: index and weight. " +
-                                                    "Index is the index of the face animation. weight 0 means no animation, and weight 100 means full animation." +
-                                                    "Here is the description for the arguments:" +
-                                                    Resources.Load<TextAsset>("BlendShapeInfo").text;
-        assistantTools.Add(
-            Tool.GetOrCreateTool(typeof(AgentFunctionCallController), "SingleFaceAnimationCall",
-                singleFaceAnimationCallDescription)
-        );
+        // // for single face animation
+        // string singleFaceAnimationCallDescription = "Call this tool when you think you should make an expression." +
+        //                                             "The function takes two arguments: index and weight. " +
+        //                                             "Index is the index of the face animation. weight 0 means no animation, and weight 100 means full animation." +
+        //                                             "Here is the description for the arguments:" +
+        //                                             Resources.Load<TextAsset>("BlendShapeInfo").text;
+        // assistantTools.Add(
+        //     Tool.GetOrCreateTool(typeof(AgentFunctionCallController), "SingleFaceAnimationCall",
+        //         singleFaceAnimationCallDescription)
+        // );
 
 
         ConversionAppendMessage(new Message(Role.System, systemPrompt));
@@ -162,7 +169,7 @@ public class AgentChatController : MonoBehaviour
 
         try
         {
-            var request = new ChatRequest(_conversation.Messages, tools: assistantTools, model: Model.GPT4oMini);
+            var request = new ChatRequest(_conversation.Messages, tools: assistantTools, model: Model.GPT4o);
             //var request = new ChatRequest(_conversation.Messages);
             var response = await _openAIClient.ChatEndpoint.StreamCompletionAsync(request,
                 resultHandler: deltaResponse =>
