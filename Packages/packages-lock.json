@@ -1,15 +1,14 @@
 {
   "dependencies": {
     "com.openai.unity": {
-      "version": "8.4.4",
+      "version": "file:LocalPackages/com.openai.unity",
       "depth": 0,
-      "source": "registry",
+      "source": "local",
       "dependencies": {
-        "com.utilities.encoder.wav": "2.0.2",
+        "com.utilities.encoder.wav": "2.1.0",
         "com.utilities.rest": "3.3.0",
         "com.utilities.websockets": "1.0.1"
-      },
-      "url": "https://package.openupm.com"
+      }
     },
     "com.unity.burst": {
       "version": "1.8.18",
@@ -246,7 +245,7 @@
       "url": "https://package.openupm.com"
     },
     "com.utilities.audio": {
-      "version": "2.0.2",
+      "version": "2.1.0",
       "depth": 2,
       "source": "registry",
       "dependencies": {
@@ -257,11 +256,11 @@
       "url": "https://package.openupm.com"
     },
     "com.utilities.encoder.wav": {
-      "version": "2.0.2",
+      "version": "2.1.0",
       "depth": 1,
       "source": "registry",
       "dependencies": {
-        "com.utilities.audio": "2.0.2"
+        "com.utilities.audio": "2.1.0"
       },
       "url": "https://package.openupm.com"
     },
