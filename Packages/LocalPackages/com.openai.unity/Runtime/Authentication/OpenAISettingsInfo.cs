@@ -11,7 +11,9 @@ namespace OpenAI
         internal const string WS = "ws://";
         internal const string WSS = "wss://";
         internal const string Http = "http://";
+        //internal const string Https = "https://";
         internal const string Https = "http://";
+        //internal const string OpenAIDomain = "api.openai.com";
         internal const string OpenAIDomain = "localhost:3002";
         internal const string DefaultOpenAIApiVersion = "v1";
         internal const string AzureOpenAIDomain = "openai.azure.com";
