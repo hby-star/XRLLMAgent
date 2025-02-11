@@ -62,17 +62,23 @@ public class AgentChatController : MonoBehaviour
     private void Awake()
     {
         OnValidate();
-        _openAIClient = new OpenAIClient(
-            new OpenAIAuthentication().LoadFromPath(Environment.CurrentDirectory + "/Assets/APIKeys/oneapiKey.json"))
-        {
-            EnableDebug = enableDebug
-        };
 
-        // _fastgptClient = new OpenAIClient(
-        //     new OpenAIAuthentication().LoadFromPath(Environment.CurrentDirectory + "/Assets/APIKeys/fastgptKey.json"))
-        // {
-        //     EnableDebug = enableDebug
-        // };
+        if(OpenAISettingsInfo.apiType == OpenAISettingsInfo.APIType.OpenAI)
+        {
+            _openAIClient = new OpenAIClient(
+                new OpenAIAuthentication().LoadFromPath(Environment.CurrentDirectory + "/Assets/APIKeys/openAIKey.json"))
+            {
+                EnableDebug = enableDebug
+            };
+        }
+        else
+        {
+            _openAIClient = new OpenAIClient(
+                new OpenAIAuthentication().LoadFromPath(Environment.CurrentDirectory + "/Assets/APIKeys/oneapiKey.json"))
+            {
+                EnableDebug = enableDebug
+            };
+        }
 
         // Add tools
         // for debug
@@ -89,6 +95,24 @@ public class AgentChatController : MonoBehaviour
         //     Tool.GetOrCreateTool(typeof(AgentFunctionCallController), "SingleFaceAnimationCall",
         //         singleFaceAnimationCallDescription)
         // );
+
+        // for set local destination
+        string setLocalDestinationDescription = "Call this tool when you want to move to other place." +
+                                                "The function takes three arguments: x, y, and z. " +
+                                                "x, y, and z are the relative destination. z is the forward direction of the agent." +
+                                                "x and y are the right and up direction of the agent.";
+        assistantTools.Add(
+            Tool.GetOrCreateTool(typeof(AgentFunctionCallController), "SetLocalDestination",
+                setLocalDestinationDescription)
+        );
+
+        // for rag call
+        string ragCallDescription =
+            "Call this tool when you think user has make a request that is related to usability heuristics"
+            +"The function takes one argument: prompt. And the type of the argument is string. ";
+        assistantTools.Add(
+            Tool.GetOrCreateTool(typeof(AgentFunctionCallController), "RagCall", ragCallDescription)
+        );
 
 
         ConversionAppendMessage(new Message(Role.System, systemPrompt));
@@ -226,14 +250,26 @@ public class AgentChatController : MonoBehaviour
 
                 async Task ProcessToolCall()
                 {
-                    ConversionAppendMessage(new(toolCall, "{\"result\":\"completed\"}"));
                     await Awaiters.UnityMainThread;
 
                     try
                     {
-                        // var results = await toolCall.InvokeFunctionAsync(destroyCancellationToken)
-                        //     .ConfigureAwait(true);
-                        await toolCall.InvokeFunctionAsync(destroyCancellationToken);
+                        if(!toolCall.Function.Name.Contains("RagCall"))
+                        {
+                            ConversionAppendMessage(new(toolCall, "{\"result\":\"completed\"}"));
+                            await toolCall.InvokeFunctionAsync(destroyCancellationToken);
+                        }
+                        else
+                        {
+                            string ragPrompt =  await toolCall.InvokeFunctionAsync<string>(destroyCancellationToken);
+                            Conversation newConversation = new();
+                            newConversation.AppendMessage(new Message(Role.User, ragPrompt));
+                            string ragRes;
+                            var ragRequest = new ChatRequest(newConversation.Messages, model: "FastGPT");
+                            var ragResponse = await _openAIClient.ChatEndpoint.GetCompletionAsync(ragRequest, destroyCancellationToken);
+
+                            ConversionAppendMessage(new(toolCall, "result: "+ragResponse.FirstChoice.Message));
+                        }
                     }
                     catch (Exception e)
                     {
@@ -252,7 +288,7 @@ public class AgentChatController : MonoBehaviour
             try
             {
                 var toolCallRequest =
-                    new ChatRequest(_conversation.Messages, tools: assistantTools, model: Model.GPT4oMini);
+                    new ChatRequest(_conversation.Messages, tools: assistantTools, model: Model.GPT4o);
                 toolCallResponse =
                     await _openAIClient.ChatEndpoint.GetCompletionAsync(toolCallRequest, destroyCancellationToken);
                 ConversionAppendMessage(toolCallResponse.FirstChoice.Message);
@@ -267,7 +303,7 @@ public class AgentChatController : MonoBehaviour
                 }
 
                 var toolCallRequest =
-                    new ChatRequest(_conversation.Messages, tools: assistantTools, model: Model.GPT4oMini);
+                    new ChatRequest(_conversation.Messages, tools: assistantTools, model: Model.GPT4o);
                 toolCallResponse =
                     await _openAIClient.ChatEndpoint.GetCompletionAsync(toolCallRequest, destroyCancellationToken);
                 ConversionAppendMessage(toolCallResponse.FirstChoice.Message);

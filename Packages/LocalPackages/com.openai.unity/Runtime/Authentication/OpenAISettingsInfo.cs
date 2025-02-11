@@ -8,6 +8,14 @@ namespace OpenAI
 {
     public sealed class OpenAISettingsInfo : ISettingsInfo
     {
+        public enum APIType
+        {
+            OneAPI,
+            OpenAI
+        }
+
+        public static APIType apiType = APIType.OneAPI;
+
         internal const string WS = "ws://";
         internal const string WSS = "wss://";
         internal const string Http = "http://";
