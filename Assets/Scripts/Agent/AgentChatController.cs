@@ -108,7 +108,7 @@ public class AgentChatController : MonoBehaviour
 
         // for rag call
         string ragCallDescription =
-            "Call this tool when you think user has make a request that is related to usability heuristics"
+            "Call this tool when user makes a request that is related to 'motion matching'. "
             +"The function takes one argument: prompt. And the type of the argument is string. ";
         assistantTools.Add(
             Tool.GetOrCreateTool(typeof(AgentFunctionCallController), "RagCall", ragCallDescription)

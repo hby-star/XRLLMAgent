@@ -317,10 +317,8 @@ MonoBehaviour:
   systemPrompt: 'You are a helpful assistant.
 
     You should generate brief response
-    that is no more than 50 words.when you think you should move, use the SetLocalDestination
-    functionCall tool.'
-  newInput: give some new new elements of the heuristics to be considered in the
-    fulture
+    that is no more than 50 words.Remember to use the function call when needed.'
+  newInput: what is motion matching
 --- !u!1 &832787965
 GameObject:
   m_ObjectHideFlags: 0
