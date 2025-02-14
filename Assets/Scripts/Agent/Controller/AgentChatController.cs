@@ -264,7 +264,6 @@ public class AgentChatController : MonoBehaviour
                             string ragPrompt =  await toolCall.InvokeFunctionAsync<string>(destroyCancellationToken);
                             Conversation newConversation = new();
                             newConversation.AppendMessage(new Message(Role.User, ragPrompt));
-                            string ragRes;
                             var ragRequest = new ChatRequest(newConversation.Messages, model: "FastGPT");
                             var ragResponse = await _openAIClient.ChatEndpoint.GetCompletionAsync(ragRequest, destroyCancellationToken);
 
