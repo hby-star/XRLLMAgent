@@ -3,10 +3,14 @@ using System.Collections.Generic;
 using UnityEngine;
 using MxM;
 using MxMGameplay;
+using UnityEngine.AI;
 
 
 public class MyVaultDetector : MonoBehaviour
 {
+    public NavMeshAgent navMeshAgent;
+    public AIDestinationSetter aiDestinationSetter;
+
     [SerializeField] private VaultDefinition[] m_vaultDefinitions = null;
 
     [SerializeField] private VaultDetectionConfig[] m_vaultConfigurations = null;
@@ -170,14 +174,34 @@ public class MyVaultDetector : MonoBehaviour
         m_isVaulting = false;
     }
 
+    private float m_timeToRepath = 1f;
+    private float m_repathTimer = 0f;
+    private bool m_repathing = false;
+
     public void Update()
     {
         //Check if we are already vaulting
         if (m_isVaulting)
         {
+            navMeshAgent.isStopped = true;
+            m_repathTimer = Time.time;
+            m_repathing = true;
             HandleCurrentVault();
             return;
         }
+
+        if(m_repathing)
+        {
+            navMeshAgent.ResetPath();
+            navMeshAgent.SetDestination(aiDestinationSetter.m_destinationTransform.position);
+            m_repathing = false;
+        }
+
+        // if(Time.time - m_repathTimer > m_timeToRepath && navMeshAgent.isStopped)
+        // {
+        //     navMeshAgent.SetDestination(aiDestinationSetter.m_destinationTransform.position);
+        // }
+
 
         if (!CanVault())
             return;
@@ -413,7 +437,7 @@ public class MyVaultDetector : MonoBehaviour
             return false;
 
         //Check that there is user movement input
-        if (!m_trajectoryGenerator.HasMovementInput())
+        if (!m_trajectoryGenerator.HasMovementInput() || !navMeshAgent.hasPath)
             return false;
 
         //Check that the angle beteen input and the character facing direction is within an acceptable range to vault
@@ -586,7 +610,7 @@ public class MyVaultDetector : MonoBehaviour
                     a_vaultProfile.VaultType = EVaultType.StepOver;
                     a_vaultProfile.Contact2 = rayHit.point;
 
-                    return; //TODO: Remove this return point. The entire vault needs to be analysed before a decision is made in case the character doesn't fit
+                    //return; //TODO: Remove this return point. The entire vault needs to be analysed before a decision is made in case the character doesn't fit
                 }
                 else if (i == m_vaultAnalysisIterations - 1)
                 {
